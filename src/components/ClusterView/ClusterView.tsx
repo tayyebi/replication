@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState } from 'react';
+import { useRef, useLayoutEffect, useState, useCallback } from 'react';
 import { useSimulationStore } from '../../store/simulationStore';
 import { ReplicaCard } from './ReplicaCard';
 import { GossipArrow } from './GossipArrow';
@@ -8,9 +8,11 @@ interface NodePos { id: string; cx: number; cy: number; }
 export function ClusterView() {
   const { snapshot, selectedNodeId } = useSimulationStore();
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [positions, setPositions] = useState<NodePos[]>([]);
   const [svgSize, setSvgSize] = useState({ w: 0, h: 0 });
+  const [activeSlide, setActiveSlide] = useState(0);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -30,6 +32,14 @@ export function ClusterView() {
     return () => ro.disconnect();
   }, [snapshot.nodes.length]);
 
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.querySelector('div')?.clientWidth ?? 1;
+    const idx = Math.round(el.scrollLeft / (cardWidth + 8));
+    setActiveSlide(Math.min(idx, snapshot.nodes.length - 1));
+  }, [snapshot.nodes.length]);
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-3 md:p-5 shadow-sm">
       <h2 className="text-base md:text-lg font-bold text-slate-800 mb-1">The 3 Servers</h2>
@@ -37,18 +47,43 @@ export function ClusterView() {
         Each box is a server. Click one to select it, then save data below. Green arrows appear when servers sync.
       </p>
 
-      {/* Horizontal scroll on mobile, 3-col grid on desktop */}
       <div ref={containerRef} className="relative">
-        <div className="flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0 snap-x snap-mandatory md:snap-none">
+        {/* Mobile: snap-scroll carousel / Desktop: 3-col grid */}
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex gap-2 snap-x snap-mandatory overflow-x-auto pb-1 scroll-smooth md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0 md:snap-none"
+        >
           {snapshot.nodes.map(node => (
             <div
               key={node.id}
               ref={el => { cardRefs.current[node.id] = el; }}
-              className="flex-shrink-0 w-48 md:w-auto snap-start"
+              className="flex-shrink-0 w-[calc(100vw-3.5rem)] snap-start md:w-auto"
             >
               <ReplicaCard node={node} selected={selectedNodeId === node.id} />
             </div>
           ))}
+        </div>
+
+        {/* Slide indicator (mobile only) */}
+        <div className="flex items-center justify-center gap-1.5 mt-2 md:hidden">
+          {snapshot.nodes.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const el = scrollRef.current;
+                if (!el) return;
+                const card = el.children[i] as HTMLElement | undefined;
+                if (card) card.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+              }}
+              className={`h-1.5 rounded-full transition-all ${
+                i === activeSlide ? 'w-5 bg-slate-600' : 'w-1.5 bg-slate-300'
+              }`}
+            />
+          ))}
+          <span className="text-[10px] text-slate-400 ml-2 font-medium">
+            {activeSlide + 1}/{snapshot.nodes.length}
+          </span>
         </div>
 
         {svgSize.w > 0 && (
