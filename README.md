@@ -4,7 +4,7 @@ An interactive simulator that teaches how distributed databases stay in sync —
 
 ## Download
 
-**[Download Android APK](android/app/build/outputs/apk/debug/app-debug.apk)**
+**[Download the latest APK](https://github.com/tayyebi/replication/releases/latest)**
 
 Sideload on any Android device (enable *Install unknown apps* in settings).
 
