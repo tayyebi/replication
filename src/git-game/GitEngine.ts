@@ -223,20 +223,20 @@ export class GitEngine {
 
   private findMergeBase(a: Commit, b: Commit): Commit | null {
     const aAncestors = new Set<string>();
-    let current: Commit | undefined = a;
-    while (current) {
-      aAncestors.add(current.hash);
-      current = current.parentHashes.length > 0
-        ? this.commits.find(c => c.hash === current.parentHashes[0])
-        : undefined;
+    let cur: Commit | undefined = a;
+    while (cur) {
+      aAncestors.add(cur.hash);
+      const parentHash = cur.parentHashes[0];
+      if (!parentHash) break;
+      cur = this.commits.find(c => c.hash === parentHash);
     }
 
-    current = b;
-    while (current) {
-      if (aAncestors.has(current.hash)) return current;
-      current = current.parentHashes.length > 0
-        ? this.commits.find(c => c.hash === current.parentHashes[0])
-        : undefined;
+    cur = b;
+    while (cur) {
+      if (aAncestors.has(cur.hash)) return cur;
+      const parentHash = cur.parentHashes[0];
+      if (!parentHash) break;
+      cur = this.commits.find(c => c.hash === parentHash);
     }
     return null;
   }
@@ -352,8 +352,6 @@ export class GitEngine {
     this.workingFiles['index.html'] = '<h1>Hello World</h1>';
     this.staged['index.html'] = this.workingFiles['index.html'];
     this.commit('Update homepage');
-
-    const initial = this.getCurrentCommit()!.hash;
 
     this.createBranch('feature');
     this.switchBranch('feature');
