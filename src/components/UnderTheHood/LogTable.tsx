@@ -62,10 +62,10 @@ export function LogTable({ entries }: Props) {
                     entry.op === 'upsert'    ? 'bg-blue-100 text-blue-700' :
                     entry.op === 'tombstone' ? 'bg-red-100 text-red-600' :
                                               'bg-green-100 text-green-700'
-                  }`}>{entry.op === 'tombstone' ? 'delete' : entry.op}</span>
+                  }`}>{entry.op === 'tombstone' ? '🗑' : '💾'}</span>
                 </td>
                 <td className="py-1.5 px-2 text-slate-400 font-mono text-xs max-w-xs truncate">
-                  {JSON.stringify(entry.payload).slice(0, 50)}
+                  {(entry.payload as Record<string, unknown>).icon as string || '—'}
                 </td>
               </tr>
             );

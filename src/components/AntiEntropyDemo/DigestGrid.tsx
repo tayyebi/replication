@@ -50,7 +50,7 @@ export function DigestGrid() {
                   <td key={i} className="py-1.5 px-2 font-mono text-sm">
                     {d
                       ? <span className={!allMatch ? 'text-red-600 font-semibold' : 'text-green-600'}>
-                          {d.xorDigest.toString(16).padStart(8, '0')}
+                          {allMatch ? '✅' : '❌'}
                         </span>
                       : <span className="text-slate-300">——</span>
                     }
@@ -58,8 +58,8 @@ export function DigestGrid() {
                 ))}
                 <td className="py-1.5 px-2">
                   {allMatch
-                    ? <span className="text-green-600 font-semibold">✓ same</span>
-                    : <span className="text-red-600 font-semibold">✗ different!</span>
+                    ? <span className="text-green-600 font-semibold">✅ Match</span>
+                    : <span className="text-red-600 font-semibold">❌ Mismatch!</span>
                   }
                 </td>
               </tr>

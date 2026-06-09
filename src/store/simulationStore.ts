@@ -38,10 +38,10 @@ export const useSimulationStore = create<SimulationStore>((set, get) => {
   const scenarios = buildScenarios(cluster);
 
   // Seed each node with a few initial writes so there's data to explore
-  cluster.writeToNode('replica-a', 'service', 'api-gateway', 'upsert', { name: 'API Gateway', status: 'online', region: 'us-east' });
-  cluster.writeToNode('replica-b', 'service', 'auth-service', 'upsert', { name: 'Auth Service', status: 'online', region: 'eu-west' });
-  cluster.writeToNode('replica-c', 'service', 'billing',      'upsert', { name: 'Billing',      status: 'online', region: 'ap-south' });
-  cluster.writeToNode('replica-a', 'user',    'admin',        'upsert', { name: 'Admin User',   role: 'admin' });
+  cluster.writeToNode('replica-a', '📝', 'note-1', 'upsert', { icon: '📝', text: 'Hello!' });
+  cluster.writeToNode('replica-b', '📸', 'photo-1', 'upsert', { icon: '📸', title: 'Sunset' });
+  cluster.writeToNode('replica-c', '👤', 'user-1',  'upsert', { icon: '👤', name: 'Alice' });
+  cluster.writeToNode('replica-a', '⭐', 'star-1',  'upsert', { icon: '⭐', label: 'Favorite' });
 
   return {
     cluster,

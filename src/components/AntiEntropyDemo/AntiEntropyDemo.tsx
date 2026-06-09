@@ -17,14 +17,14 @@ export function AntiEntropyDemo() {
   const nodeA = snapshot.nodes.find(n => n.id === 'replica-a');
   const nodeB = snapshot.nodes.find(n => n.id === 'replica-b');
   const nodeC = snapshot.nodes.find(n => n.id === 'replica-c');
-  const hasOnA = !!nodeA?.entityState.get('photo:ae-demo');
-  const hasOnB = !!nodeB?.entityState.get('photo:ae-demo');
-  const hasOnC = !!nodeC?.entityState.get('photo:ae-demo');
+  const hasOnA = !!nodeA?.entityState.get('📸:ae-demo');
+  const hasOnB = !!nodeB?.entityState.get('📸:ae-demo');
+  const hasOnC = !!nodeC?.entityState.get('📸:ae-demo');
 
   const advance = () => {
     const next = step + 1;
     switch (next) {
-      case 1: forceInsertOnNode('replica-a', 'photo', 'ae-demo', { title: 'Mountain at dusk', size: '8MB' }); break;
+      case 1: forceInsertOnNode('replica-a', '📸', 'ae-demo', { icon: '📸' }); break;
       case 2: triggerAntiEntropyNow('replica-b', 'replica-a'); break;
       case 3: triggerAntiEntropyNow('replica-c', 'replica-a'); setDone(true); break;
     }

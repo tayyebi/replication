@@ -47,9 +47,9 @@ export interface ActionLog {
 }
 
 const DEFAULT_FILES: Record<string, string> = {
-  'README.md': '# My Project\n\nWelcome to the git tutorial!',
-  'index.html': '<!DOCTYPE html>\n<html>\n<body>\n<h1>Hello World</h1>\n</body>\n</html>',
-  'style.css': 'body { font-family: sans-serif; }',
+  '📄-readme': '📝 Welcome to the project!',
+  '🎨-theme': '🎨 Blue theme 🟦',
+  '🔧-config': '🔧 version = 1.0 ⚙️',
 };
 
 let hashCounter = 0;
@@ -92,7 +92,7 @@ export class GitEngine {
     };
     this.commits.push(firstCommit);
     this.branches['main'] = { name: 'main', commitHash: firstCommit.hash };
-    this.addLog('init', 'Repository initialized', 'Default files created: README.md, index.html, style.css');
+    this.addLog('init', 'Repository initialized', 'Starting files: 📄-readme, 🎨-theme, 🔧-config');
   }
 
   private addLog(kind: ActionKind, message: string, detail?: string): void {
@@ -323,19 +323,19 @@ export class GitEngine {
 
   setupScenarioFirstCommit(): void {
     this.reset();
-    this.addLog('init', '📋 Scenario: Your First Commit', 'Edit a file → Stage it → Commit. This is the basic git workflow.');
+    this.addLog('init', '📋 Scenario: Your First Commit', 'Edit a file 📝 → Stage it 📦 → Commit ✅. This is the basic git workflow.');
   }
 
   setupScenarioBranching(): void {
     this.reset();
     this.commits[0].message = 'Initial commit';
-    this.workingFiles['README.md'] = '# My Project\n\nHello!';
-    this.staged['README.md'] = this.workingFiles['README.md'];
-    this.commit('Add greeting to README');
+    this.workingFiles['📄-readme'] = '📝 Hello! 👋';
+    this.staged['📄-readme'] = this.workingFiles['📄-readme'];
+    this.commit('Update readme');
 
-    this.workingFiles['index.html'] = '<h1>Hello World</h1>';
-    this.staged['index.html'] = this.workingFiles['index.html'];
-    this.commit('Update index.html');
+    this.workingFiles['🎨-theme'] = '🎨 Green theme 🟢';
+    this.staged['🎨-theme'] = this.workingFiles['🎨-theme'];
+    this.commit('Update theme');
 
     this.addLog('init', '📋 Scenario: Branching Out',
       'You have 2 commits on main. Create a branch, switch to it, and make a new commit on it.'
@@ -345,24 +345,24 @@ export class GitEngine {
   setupScenarioMerge(): void {
     this.reset();
     this.commits[0].message = 'Initial commit';
-    this.workingFiles['README.md'] = '# My Project\n\nHello!';
-    this.staged['README.md'] = this.workingFiles['README.md'];
-    this.commit('Add greeting');
+    this.workingFiles['📄-readme'] = '📝 Hello! 👋';
+    this.staged['📄-readme'] = this.workingFiles['📄-readme'];
+    this.commit('Update readme');
 
-    this.workingFiles['index.html'] = '<h1>Hello World</h1>';
-    this.staged['index.html'] = this.workingFiles['index.html'];
-    this.commit('Update homepage');
+    this.workingFiles['🎨-theme'] = '🎨 Blue theme 🟦';
+    this.staged['🎨-theme'] = this.workingFiles['🎨-theme'];
+    this.commit('Update theme');
 
     this.createBranch('feature');
     this.switchBranch('feature');
 
-    this.workingFiles['app.js'] = 'console.log("hello");';
-    this.staged['app.js'] = this.workingFiles['app.js'];
-    this.commit('Add app.js');
+    this.workingFiles['⭐-feature'] = '🌟 Brand new feature! ✨';
+    this.staged['⭐-feature'] = this.workingFiles['⭐-feature'];
+    this.commit('Add feature');
 
-    this.workingFiles['README.md'] = '# My Project\n\nHello!\n\nSee app.js for code.';
-    this.staged['README.md'] = this.workingFiles['README.md'];
-    this.commit('Update README');
+    this.workingFiles['📄-readme'] = '📝 Hello! 👋\n\n⭐ Check out the new feature!';
+    this.staged['📄-readme'] = this.workingFiles['📄-readme'];
+    this.commit('Update readme');
 
     this.switchBranch('main');
 
@@ -381,8 +381,8 @@ export class GitEngine {
     this.log = [];
 
     const baseFiles: Record<string, string> = {
-      'greeting.txt': 'Hello everyone!',
-      'README.md': '# Project\n\nShared project.',
+      '💬-greeting': '👋 Hello everyone!',
+      '📄-readme': '📝 Shared project.',
     };
 
     this.workingFiles = { ...baseFiles };
@@ -401,30 +401,30 @@ export class GitEngine {
     this.createBranch('feature');
     this.switchBranch('feature');
 
-    this.workingFiles['greeting.txt'] = 'Hello everyone!\n\nWelcome to the feature branch!';
-    this.staged['greeting.txt'] = this.workingFiles['greeting.txt'];
+    this.workingFiles['💬-greeting'] = '👋 Hello everyone!\n\n🌟 Welcome to the feature branch!';
+    this.staged['💬-greeting'] = this.workingFiles['💬-greeting'];
     const featCommit: Commit = {
       hash: shortHash(),
       message: 'Update greeting on feature',
       timestamp: Date.now() - 5000,
       parentHashes: [initial.hash],
       branch: 'feature',
-      snapshot: { ...baseFiles, 'greeting.txt': 'Hello everyone!\n\nWelcome to the feature branch!' },
+      snapshot: { ...baseFiles, '💬-greeting': '👋 Hello everyone!\n\n🌟 Welcome to the feature branch!' },
     };
     this.commits.push(featCommit);
     this.branches['feature'].commitHash = featCommit.hash;
 
     this.switchBranch('main');
 
-    this.workingFiles['greeting.txt'] = 'Hello everyone!\n\nThis is the main branch!';
-    this.staged['greeting.txt'] = this.workingFiles['greeting.txt'];
+    this.workingFiles['💬-greeting'] = '👋 Hello everyone!\n\n🏠 This is the main branch!';
+    this.staged['💬-greeting'] = this.workingFiles['💬-greeting'];
     const mainCommit: Commit = {
       hash: shortHash(),
       message: 'Update greeting on main',
       timestamp: Date.now() - 3000,
       parentHashes: [initial.hash],
       branch: 'main',
-      snapshot: { ...baseFiles, 'greeting.txt': 'Hello everyone!\n\nThis is the main branch!' },
+      snapshot: { ...baseFiles, '💬-greeting': '👋 Hello everyone!\n\n🏠 This is the main branch!' },
     };
     this.commits.push(mainCommit);
     this.branches['main'].commitHash = mainCommit.hash;

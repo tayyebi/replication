@@ -101,8 +101,8 @@ export function UnderTheHood() {
                           ? <span className="text-red-500 font-medium">deleted</span>
                           : <span className="text-green-600 font-medium">active</span>}
                       </td>
-                      <td className="py-2 px-2 font-mono text-slate-400 max-w-xs truncate text-xs">
-                        {JSON.stringify(entity.data).slice(0, 60)}
+                      <td className="py-2 px-2 font-mono text-slate-400 text-xs">
+                        {(entity.data.icon as string) || '—'}
                       </td>
                     </tr>
                   ))}

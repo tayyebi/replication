@@ -3,10 +3,10 @@ import { useSimulationStore } from '../../store/simulationStore';
 import { NODE_LABELS } from '../../engine/cluster';
 
 const PRESETS = [
-  { emoji: '📝', label: 'Save a note',      entityType: 'note',    entityId: 'my-note',  op: 'upsert'    as const, payload: { text: 'Hello world!', author: 'Alice' } },
-  { emoji: '🖼', label: 'Upload a photo',   entityType: 'photo',   entityId: 'sunset',   op: 'upsert'    as const, payload: { title: 'Beach sunset', size: '4MB' } },
-  { emoji: '👤', label: 'Update profile',   entityType: 'profile', entityId: 'alice',    op: 'upsert'    as const, payload: { name: 'Alice', role: 'admin' } },
-  { emoji: '🗑', label: 'Delete a note',    entityType: 'note',    entityId: 'old-note', op: 'tombstone' as const, payload: {} },
+  { emoji: '📝', label: 'Save a note',    entityType: '📝', entityId: 'note',  op: 'upsert'    as const, payload: { icon: '📝' } },
+  { emoji: '📸', label: 'Save a photo',   entityType: '📸', entityId: 'photo', op: 'upsert'    as const, payload: { icon: '📸' } },
+  { emoji: '⭐', label: 'Save a star',    entityType: '⭐', entityId: 'star',  op: 'upsert'    as const, payload: { icon: '⭐' } },
+  { emoji: '🗑', label: 'Delete',         entityType: '📝', entityId: 'note',  op: 'tombstone' as const, payload: {} },
 ];
 
 export function WritePanel() {

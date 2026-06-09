@@ -37,8 +37,8 @@ export function LwwComparison({ nodeAId, nodeBId, versionA, versionB, dataA, dat
               <div className="text-sm text-slate-600 mb-1">
                 Saved at <span className="font-semibold text-slate-800">{new Date(ms).toLocaleTimeString()}</span>
               </div>
-              <div className="text-xs text-slate-400 truncate font-mono">
-                {JSON.stringify(data).slice(0, 50)}
+              <div className="text-lg text-slate-600 truncate">
+                {(data.icon as string) || '—'}
               </div>
             </div>
           );

@@ -34,7 +34,7 @@ export function DigestTable({ nodeId }: Props) {
               <td className="py-2 px-2 text-slate-700">{d.entityType}</td>
               <td className="py-2 px-2 text-slate-600">Hour {d.hourBucket}</td>
               <td className="py-2 px-2 text-slate-700">{d.count}</td>
-              <td className="py-2 px-2 font-mono text-amber-600">{d.xorDigest.toString(16).padStart(8, '0')}</td>
+              <td className="py-2 px-2 font-mono text-amber-600">🔑</td>
             </tr>
           ))}
         </tbody>

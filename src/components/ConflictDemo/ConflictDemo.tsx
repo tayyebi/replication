@@ -17,15 +17,15 @@ export function ConflictDemo() {
 
   const nodeA = snapshot.nodes.find(n => n.id === 'replica-a');
   const nodeB = snapshot.nodes.find(n => n.id === 'replica-b');
-  const aliceA = nodeA?.entityState.get('note:alice');
-  const aliceB = nodeB?.entityState.get('note:alice');
+  const aliceA = nodeA?.entityState.get('📝:alice');
+  const aliceB = nodeB?.entityState.get('📝:alice');
 
   const advance = () => {
     const next = step + 1;
     switch (next) {
       case 1: partitionNode('replica-a'); break;
-      case 2: writeToNode('replica-a', 'note', 'alice', 'upsert', { text: 'Written on Server A', version: 'A' }); break;
-      case 3: writeToNode('replica-b', 'note', 'alice', 'upsert', { text: 'Written on Server B', version: 'B' }); break;
+      case 2: writeToNode('replica-a', '📝', 'alice', 'upsert', { icon: '📝 A' }); break;
+      case 3: writeToNode('replica-b', '📝', 'alice', 'upsert', { icon: '📝 B' }); break;
       case 4: healPartition('replica-a'); break;
       case 5: triggerGossipNow('replica-a', 'replica-b'); triggerGossipNow('replica-b', 'replica-a'); setDone(true); break;
     }
