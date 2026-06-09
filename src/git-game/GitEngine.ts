@@ -226,17 +226,17 @@ export class GitEngine {
     let cur: Commit | undefined = a;
     while (cur) {
       aAncestors.add(cur.hash);
-      const parentHash = cur.parentHashes[0];
-      if (!parentHash) break;
-      cur = this.commits.find(c => c.hash === parentHash);
+      const parent: string | undefined = cur.parentHashes[0];
+      if (!parent) break;
+      cur = this.commits.find(c => c.hash === parent);
     }
 
     cur = b;
     while (cur) {
       if (aAncestors.has(cur.hash)) return cur;
-      const parentHash = cur.parentHashes[0];
-      if (!parentHash) break;
-      cur = this.commits.find(c => c.hash === parentHash);
+      const parent: string | undefined = cur.parentHashes[0];
+      if (!parent) break;
+      cur = this.commits.find(c => c.hash === parent);
     }
     return null;
   }
